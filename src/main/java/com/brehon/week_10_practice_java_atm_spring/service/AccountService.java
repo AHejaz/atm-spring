@@ -11,6 +11,8 @@ public interface AccountService {
 
     Optional<Account> findById(Long id);
 
+    Optional<Account> login(String cardNumber,String password);
+
 
     List<Account> findAll();
 

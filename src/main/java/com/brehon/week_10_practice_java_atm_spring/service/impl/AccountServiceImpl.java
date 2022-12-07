@@ -30,6 +30,11 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public Optional<Account> login(String cardNumber, String password) {
+        return accountRepository.findByCard_CardNumberAndCard_Password(cardNumber, password);
+    }
+
+    @Override
     public List<Account> findAll() {
         return accountRepository.findAll();
     }
