@@ -40,4 +40,8 @@ public class Card {
         this.expireDate = LocalDate.now().plusYears(5);
         this.password = password;
     }
+
+    public boolean validation (String password){
+        return password.equals(this.password);
+    }
 }

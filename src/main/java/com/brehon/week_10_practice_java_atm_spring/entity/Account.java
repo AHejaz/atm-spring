@@ -1,12 +1,16 @@
 package com.brehon.week_10_practice_java_atm_spring.entity;
 
 import com.brehon.week_10_practice_java_atm_spring.entity.enums.AccountType;
+import com.brehon.week_10_practice_java_atm_spring.entity.enums.TransactionType;
+import com.brehon.week_10_practice_java_atm_spring.exceptions.InvalidAmountException;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "account")
@@ -53,5 +57,24 @@ public class Account {
                 ", user=" + user +
                 ", card=" + card +
                 '}';
+    }
+
+    public void deposit(Double amount) {
+        this.balance += amount;
+        Transaction transaction = new Transaction(amount, TransactionType.DEPOSIT);
+        if (Objects.isNull(transactions))
+            transactions = new ArrayList<>();
+        transactions.add(transaction);
+    }
+
+    public void withDraw(Double amount) {
+        if (amount < this.balance) {
+            this.balance = this.balance - amount;
+            Transaction transaction = new Transaction(amount, TransactionType.WITHDRAW);
+            if (Objects.isNull(transactions))
+                transactions = new ArrayList<>();
+            transactions.add(transaction);
+        } else
+            throw new InvalidAmountException();
     }
 }

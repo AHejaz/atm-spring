@@ -1,6 +1,7 @@
 package com.brehon.week_10_practice_java_atm_spring.service;
 
 import com.brehon.week_10_practice_java_atm_spring.entity.Account;
+import com.brehon.week_10_practice_java_atm_spring.entity.Transaction;
 import com.brehon.week_10_practice_java_atm_spring.entity.User;
 
 import java.util.List;
@@ -11,7 +12,7 @@ public interface AccountService {
 
     Optional<Account> findById(Long id);
 
-    Optional<Account> login(String cardNumber,String password);
+    Account login(String cardNumber,String password);
 
 
     List<Account> findAll();
@@ -21,4 +22,8 @@ public interface AccountService {
     void delete(Account account);
 
     void deleteById(Long id);
+
+    void moneyTransfer(String cardNum1, String cardNum2, double amount);
+
+    List<Transaction> lastTenTransactions(String cardNumber);
 }
