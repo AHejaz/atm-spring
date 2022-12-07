@@ -33,7 +33,7 @@ public class Account {
     private Double balance;
 
     @Column(name = "account_type",nullable = false,columnDefinition = "enum('JARI','SEPORDE','GHARZOL_HASANE')")
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private AccountType type;
 
     @OneToOne(cascade = CascadeType.ALL)

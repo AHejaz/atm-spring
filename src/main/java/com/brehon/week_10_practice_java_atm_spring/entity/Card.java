@@ -35,6 +35,7 @@ public class Card {
 
     public Card(String password) {
         Random random = new Random();
+        this.id = null;
         this.cardNumber = PRE_FIX + random.nextInt(10000000,99999999);
         this.cvv2 = String.valueOf(random.nextInt(1000,9999));
         this.expireDate = LocalDate.now().plusYears(5);

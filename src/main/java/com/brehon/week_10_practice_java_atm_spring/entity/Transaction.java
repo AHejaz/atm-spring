@@ -23,7 +23,7 @@ public class Transaction {
     private Double amount;
 
     @Column(name = "transaction_type", nullable = false,columnDefinition = "enum( 'DEPOSIT', 'WITHDRAW')")
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private TransactionType transactionType;
 
     @Column(name = "date", nullable = false)

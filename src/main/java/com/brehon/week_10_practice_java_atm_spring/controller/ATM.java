@@ -30,10 +30,9 @@ public class ATM {
     private static final int EXIT = 9;
 
 
+    private UserService userService;
 
-    private UserService userService ;
-
-    private AccountService accountService ;
+    private AccountService accountService;
 
 
     Account currentAccount;
@@ -105,7 +104,8 @@ public class ATM {
                         currentAccount.getBalance() +
                         "$");
             }
-            case TRANSACTIONS -> Util.print(accountService.lastTenTransactions(currentAccount.getCard().getCardNumber()));
+            case TRANSACTIONS ->
+                    Util.print(accountService.lastTenTransactions(currentAccount.getCard().getCardNumber()));
 
             case TRANSFER -> transfer();
             case EXIT -> isUserExited = true;
@@ -138,7 +138,8 @@ public class ATM {
             Util.print("Enter your date of birth (yyyy-mm-dd): ");
             String date = (String) Util.getInput("", String.class);
             LocalDate bDay = LocalDate.parse(date);
-            userService.save(new User(fName, lName, nId, bDay));
+            User user = new User(fName, lName, nId, bDay);
+            userService.save(user);
             String password = (String) Util.getInput("Enter password :", String.class);
             Integer type = (Integer) Util.getInput("""
                     Enter the account type you want:
@@ -146,9 +147,8 @@ public class ATM {
                     2.seporde
                     3.gharzolhasane
                     """, Integer.class);
-
-             accountService.save(new Account(userService.findByNationalCode(nId).get(), password, AccountType.getAccountType(type)));
-
+            Account account = new Account(user, password, AccountType.getAccountType(type));
+            accountService.save(account);
             Util.print("your can login with your card number: " + accountService.findByNationalCode(nId).get().getCard().getCardNumber());
         } catch (AgeException e) {
             System.err.println(e.getMessage());
