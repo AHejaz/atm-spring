@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 @Entity
 @Table(name = "account")
@@ -45,6 +46,17 @@ public class Account {
 
     @OneToMany(mappedBy = "account",fetch = FetchType.EAGER)
     private List<Transaction> transactions;
+
+    public Account(User user, String password, AccountType type) {
+        Random random = new Random();
+        this.id = null;
+        this.user = user;
+        this.accountNumber = String.valueOf(random.nextLong(10000000, 999999999));
+        this.password = password;
+        this.balance = 50d;
+        this.type = type;
+        this.card = new Card(password);
+    }
 
     @Override
     public String toString() {

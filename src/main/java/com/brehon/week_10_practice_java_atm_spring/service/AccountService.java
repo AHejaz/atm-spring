@@ -15,6 +15,8 @@ public interface AccountService {
     Account login(String cardNumber,String password);
 
 
+    Optional<Account> findByNationalCode(String nationalCode);
+
     List<Account> findAll();
 
     void update(Account account);

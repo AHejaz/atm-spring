@@ -33,8 +33,8 @@ public class User {
     @Column(name = "birthday",nullable = false,length = 11)
     private LocalDate birthday;
 
-    public User(Long id, String name, String family, String nationalCode, LocalDate birthday) {
-        this.id = id;
+    public User( String name, String family, String nationalCode, LocalDate birthday) {
+        this.id = null;
         this.name = name;
         this.family = family;
         this.age = LocalDate.now().getYear()- birthday.getYear();
