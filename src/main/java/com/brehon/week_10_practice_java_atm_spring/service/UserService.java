@@ -18,4 +18,6 @@ public interface UserService {
     void delete(User user);
 
     void deleteById(Long id);
+
+    Optional<User> findByNationalCode(String nationalCode);
 }

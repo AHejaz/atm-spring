@@ -49,4 +49,9 @@ public class UserServiceImpl implements UserService {
     public void deleteById(Long id) {
         userRepository.deleteById(id);
     }
+
+    @Override
+    public Optional<User> findByNationalCode(String nationalCode) {
+        return userRepository.findByNationalCode(nationalCode);
+    }
 }
