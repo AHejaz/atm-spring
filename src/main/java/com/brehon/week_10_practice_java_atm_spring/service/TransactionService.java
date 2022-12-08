@@ -7,6 +7,8 @@ import java.util.Optional;
 
 
 public interface TransactionService {
+    List<Transaction> lastTenTransaction(String cardNumber);
+
     void save(Transaction transaction);
 
     Optional<Transaction> findById(Long id);

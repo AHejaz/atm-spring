@@ -4,6 +4,7 @@ import com.brehon.week_10_practice_java_atm_spring.entity.Transaction;
 import com.brehon.week_10_practice_java_atm_spring.repository.TransactionRepository;
 import com.brehon.week_10_practice_java_atm_spring.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +19,10 @@ public class TransactionServiceImpl implements TransactionService {
         this.transactionRepository = transactionRepository;
     }
 
+    @Override
+    public List<Transaction> lastTenTransaction(String cardNumber){
+        return transactionRepository.findByAccount_Card_CardNumberOrderByDateDesc(cardNumber, PageRequest.of(0,10)).getContent();
+    }
     @Override
     public void save(Transaction transaction) {
         transactionRepository.save(transaction);
