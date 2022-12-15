@@ -21,16 +21,22 @@ public class AccountController {
 
 
     @GetMapping("/")
-    public List<Account> findAll(){
+    public List<Account> findAll() {
         return accountService.findAll();
     }
 
     @GetMapping
-    public Optional<Account> findByCardNumber(@RequestParam("card_number") String cardNumber){
-        return  accountService.findByCardNumber(cardNumber);
+    public Optional<Account> findByCardNumber(@RequestParam("card_number") String cardNumber) {
+        return accountService.findByCardNumber(cardNumber);
     }
+
     @PostMapping
-    public void save(@RequestBody Account account){
+    public void save(@RequestBody Account account) {
         accountService.save(account);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable(name = "id") Long id){
+        accountService.deleteById(id);
     }
 }

@@ -40,14 +40,10 @@ public class Account {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
-    @JsonIgnore
-    @JsonDeserialize
     private User user;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "card_id")
-    @JsonIgnore
-    @JsonDeserialize
     private Card card;
 
     @OneToMany(mappedBy = "account",cascade = CascadeType.ALL)
