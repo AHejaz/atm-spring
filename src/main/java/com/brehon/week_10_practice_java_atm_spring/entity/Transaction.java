@@ -29,8 +29,8 @@ public class Transaction {
     @Column(name = "date", nullable = false)
     private Date date;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "account_id",nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "account_id",referencedColumnName = "id",nullable = false)
     private Account account;
 
     public Transaction(Double amount, TransactionType transactionType) {

@@ -27,7 +27,7 @@ public class User {
     @Column(name = "age",nullable = false)
     private Integer age;
 
-    @Column(name = "national_code",nullable = false,length = 11)
+    @Column(name = "national_code",nullable = false,length = 11,unique = true)
     private String nationalCode;
 
     @Column(name = "birthday",nullable = false,length = 11)

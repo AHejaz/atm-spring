@@ -3,6 +3,8 @@ package com.brehon.week_10_practice_java_atm_spring.entity;
 import com.brehon.week_10_practice_java_atm_spring.entity.enums.AccountType;
 import com.brehon.week_10_practice_java_atm_spring.entity.enums.TransactionType;
 import com.brehon.week_10_practice_java_atm_spring.exceptions.InvalidAmountException;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -38,13 +40,19 @@ public class Account {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
+    @JsonIgnore
+    @JsonDeserialize
     private User user;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "card_id")
+    @JsonIgnore
+    @JsonDeserialize
     private Card card;
 
-    @OneToMany(mappedBy = "account",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "account",cascade = CascadeType.ALL)
+    @JsonIgnore
+    @JsonDeserialize
     private List<Transaction> transactions;
 
     public Account(User user, String password, AccountType type) {
@@ -56,6 +64,7 @@ public class Account {
         this.balance = 50d;
         this.type = type;
         this.card = new Card(password);
+        transactions = new ArrayList<>();
     }
 
     @Override

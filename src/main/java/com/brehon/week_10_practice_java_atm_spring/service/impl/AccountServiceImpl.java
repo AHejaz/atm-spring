@@ -39,8 +39,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Optional<Account> findByNationalCode(String nationalCode){
-        return accountRepository.findByCard_CardNumber(nationalCode);
+    public Optional<Account> findByCardNumber(String cardNumber){
+        return accountRepository.findByCard_CardNumber(cardNumber);
     }
 
     @Override

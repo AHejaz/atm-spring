@@ -2,7 +2,6 @@ package com.brehon.week_10_practice_java_atm_spring.service;
 
 import com.brehon.week_10_practice_java_atm_spring.entity.Account;
 import com.brehon.week_10_practice_java_atm_spring.entity.Transaction;
-import com.brehon.week_10_practice_java_atm_spring.entity.User;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +14,7 @@ public interface AccountService {
     Account login(String cardNumber,String password);
 
 
-    Optional<Account> findByNationalCode(String nationalCode);
+    Optional<Account> findByCardNumber(String cardNumber);
 
     List<Account> findAll();
 
