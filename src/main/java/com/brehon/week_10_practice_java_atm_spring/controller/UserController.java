@@ -32,7 +32,7 @@ public class UserController {
 
     @GetMapping("/n")
     public UserDto findByNationalCode(@RequestParam(name = "national_code") String nationalCode){
-        return UserMapper.toUserDto(userService.findByNationalCode(nationalCode).orElseThrow());
+        return UserMapper.toUserDto(userService.findByNationalCode(nationalCode));
     }
 
     @PostMapping

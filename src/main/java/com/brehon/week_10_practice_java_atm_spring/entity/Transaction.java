@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -27,7 +28,7 @@ public class Transaction {
     private TransactionType transactionType;
 
     @Column(name = "date", nullable = false)
-    private Date date;
+    private LocalDate date;
 
     @ManyToOne
     @JoinColumn(name = "account_id",referencedColumnName = "id",nullable = false)
@@ -36,7 +37,21 @@ public class Transaction {
     public Transaction(Double amount, TransactionType transactionType) {
         this.amount = amount;
         this.transactionType = transactionType;
-        this.date = new Date();
+        this.date = LocalDate.now();
     }
 
+    @PrePersist
+    public void beforePersistDate(){
+        this.date = LocalDate.now();
+    }
+
+    @Override
+    public String toString() {
+        return "Transaction{" +
+                "id=" + id +
+                ", amount=" + amount +
+                ", transactionType=" + transactionType +
+                ", date=" + date +
+                '}';
+    }
 }

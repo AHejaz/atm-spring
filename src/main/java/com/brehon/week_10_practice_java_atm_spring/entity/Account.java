@@ -25,25 +25,25 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "account_number",nullable = false,length = 20)
+    @Column(name = "account_number",nullable = false,length = 20,unique = true)
     private String accountNumber;
 
     @Column(name = "password",nullable = false,length = 20)
     private String password;
 
-    @Column(name = "balance",nullable = false)
+    @Column(name = "balance",nullable = false,columnDefinition = "double default 100")
     private Double balance;
 
     @Column(name = "account_type",nullable = false,columnDefinition = "enum('JARI','SEPORDE','GHARZOL_HASANE')")
-    @Enumerated(EnumType.STRING)
+    @Enumerated(value = EnumType.STRING)
     private AccountType type;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id",nullable = false)
     private User user;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "card_id")
+    @JoinColumn(name = "card_id",nullable = false)
     private Card card;
 
     @OneToMany(mappedBy = "account",cascade = CascadeType.ALL)
@@ -63,18 +63,7 @@ public class Account {
         transactions = new ArrayList<>();
     }
 
-    @Override
-    public String toString() {
-        return "Account{" +
-                "id=" + id +
-                ", accountNumber='" + accountNumber + '\'' +
-                ", password='" + password + '\'' +
-                ", balance=" + balance +
-                ", type=" + type +
-                ", user=" + user +
-                ", card=" + card +
-                '}';
-    }
+
 
     public void deposit(Double amount) {
         this.balance += amount;

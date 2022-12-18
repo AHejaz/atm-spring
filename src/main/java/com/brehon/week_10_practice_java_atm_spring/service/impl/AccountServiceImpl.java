@@ -2,13 +2,16 @@ package com.brehon.week_10_practice_java_atm_spring.service.impl;
 
 import com.brehon.week_10_practice_java_atm_spring.entity.Account;
 import com.brehon.week_10_practice_java_atm_spring.entity.Transaction;
-import com.brehon.week_10_practice_java_atm_spring.exceptions.InvalidInputException;
+import com.brehon.week_10_practice_java_atm_spring.entity.User;
+import com.brehon.week_10_practice_java_atm_spring.entity.enums.AccountType;
+import com.brehon.week_10_practice_java_atm_spring.exceptions.InvalidPasswordException;
 import com.brehon.week_10_practice_java_atm_spring.exceptions.NotFoundException;
 import com.brehon.week_10_practice_java_atm_spring.repository.AccountRepository;
 import com.brehon.week_10_practice_java_atm_spring.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -16,7 +19,7 @@ import java.util.Optional;
 @Service
 public class AccountServiceImpl implements AccountService {
 
-    private AccountRepository accountRepository;
+    private final AccountRepository accountRepository;
 
     @Autowired
     public AccountServiceImpl(AccountRepository accountRepository) {
@@ -29,13 +32,27 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public Account createAccount(User user, String password, Integer type){
+        AccountType accountType = AccountType.getAccountType(type);
+        Account account = new Account(user,password,accountType);
+        accountRepository.save(account);
+        return account;
+    }
+
+    @Override
     public Optional<Account> findById(Long id) {
         return accountRepository.findById(id);
     }
 
     @Override
     public Account login(String cardNumber, String password) {
-        return accountRepository.findByCard_CardNumberAndCard_Password(cardNumber, password).orElseThrow(()->{throw new InvalidInputException("your input not correct");});
+        Account account = accountRepository.findByCard_CardNumber(cardNumber).orElseThrow(() -> {
+            throw new NotFoundException("account not found");
+        });
+        if (account.getCard().validation(password))
+            return account;
+        else
+            throw new InvalidPasswordException();
     }
 
     @Override
@@ -66,10 +83,14 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void moneyTransfer(String cardNum1, String cardNum2, double amount){
+        List<Account>accounts = new ArrayList<>();
         accountRepository.findByCard_CardNumber(cardNum1).ifPresentOrElse(account -> {
             Account account2 = accountRepository.findByCard_CardNumber(cardNum2).orElseThrow();
             account.withDraw(amount);
             account2.deposit(amount);
+            accounts.add(account);
+            accounts.add(account2);
+            accountRepository.saveAll(accounts);
         },()->{
             throw new NotFoundException("no account by this card number");
         });
