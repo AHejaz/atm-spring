@@ -57,10 +57,10 @@ public class Account {
         this.user = user;
         this.accountNumber = String.valueOf(random.nextLong(10000000, 999999999));
         this.password = password;
-        this.balance = 50d;
+        this.balance = 100d;
         this.type = type;
         this.card = new Card(password);
-        transactions = new ArrayList<>();
+        this.transactions = new ArrayList<>();
     }
 
 

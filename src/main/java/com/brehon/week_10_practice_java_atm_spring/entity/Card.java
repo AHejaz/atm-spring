@@ -19,7 +19,7 @@ public class Card {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "card_number", nullable = false, length = 16)
+    @Column(name = "card_number", nullable = false,unique = true, length = 16)
     private String cardNumber;
 
     @Column(name = "password", nullable = false, length = 18)
