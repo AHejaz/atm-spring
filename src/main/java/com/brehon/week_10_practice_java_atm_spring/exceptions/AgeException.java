@@ -1,12 +1,11 @@
 package com.brehon.week_10_practice_java_atm_spring.exceptions;
 
 
-import com.brehon.week_10_practice_java_atm_spring.file.MessageLoader;
 import org.springframework.http.HttpStatus;
 
 public class AgeException extends BaseException{
 //    public static final String Message = "you are underage!";
-    public static final String MESSAGE = MessageLoader.getMessage("AGE");
+    public static final String MESSAGE = "";
     public AgeException(){
         super(MESSAGE);
     }
