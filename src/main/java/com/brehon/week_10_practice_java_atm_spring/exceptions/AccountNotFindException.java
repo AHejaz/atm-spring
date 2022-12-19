@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 public class AccountNotFindException extends BaseException{
 
 //    public static final String message = "model.Account not found";
-    public static final String MESSAGE ="";
+    public static final String MESSAGE ="account.not.found";
 
     public AccountNotFindException() {
         super(MESSAGE);

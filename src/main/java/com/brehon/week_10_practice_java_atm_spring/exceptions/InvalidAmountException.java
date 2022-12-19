@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 
 
 public class InvalidAmountException extends BaseException{
-    public static final String MESSAGE = "";
+    public static final String MESSAGE = "invalid.amount";
 
     public InvalidAmountException() {
         super(MESSAGE);

@@ -4,7 +4,7 @@ package com.brehon.week_10_practice_java_atm_spring.exceptions;
 import org.springframework.http.HttpStatus;
 
 public class InvalidPasswordException extends BaseException {
-    public static final String MESSAGE = "";
+    public static final String MESSAGE = "invalid.password";
 
     public InvalidPasswordException() {
         super(MESSAGE);

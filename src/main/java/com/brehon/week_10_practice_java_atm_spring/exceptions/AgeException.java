@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 
 public class AgeException extends BaseException{
 //    public static final String Message = "you are underage!";
-    public static final String MESSAGE = "";
+    public static final String MESSAGE = "age.illegal";
     public AgeException(){
         super(MESSAGE);
     }
