@@ -56,8 +56,10 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Optional<Account> findByCardNumber(String cardNumber){
-        return accountRepository.findByCard_CardNumber(cardNumber);
+    public Account findByCardNumber(String cardNumber){
+        return accountRepository.findByCard_CardNumber(cardNumber).orElseThrow(()->{
+            throw new NotFoundException("account not Found");
+        });
     }
 
     @Override

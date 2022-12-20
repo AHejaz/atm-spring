@@ -8,7 +8,7 @@ import org.mapstruct.Mapping;
 import java.util.ArrayList;
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring" /*,uses = AccountMapper.class */)
 public interface TransactionMapper {
 
     @Mapping(target = "account", source = "accountDto")

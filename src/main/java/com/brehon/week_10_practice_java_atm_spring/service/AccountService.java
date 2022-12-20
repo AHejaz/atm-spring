@@ -17,7 +17,7 @@ public interface AccountService {
     Account login(String cardNumber,String password);
 
 
-    Optional<Account> findByCardNumber(String cardNumber);
+    Account findByCardNumber(String cardNumber);
 
     List<Account> findAll();
 
