@@ -1,9 +1,6 @@
 package com.brehon.week_10_practice_java_atm_spring.dto;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,6 +31,7 @@ public class CardDto {
     private String cvv2;
 
     @NotNull
+    @FutureOrPresent
     private LocalDate expireDate;
 
 }

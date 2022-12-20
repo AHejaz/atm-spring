@@ -27,4 +27,12 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
                 .setStatus(exception.httpStatus().value()),exception.httpStatus());
     }
 
+    @org.springframework.web.bind.annotation.ExceptionHandler(value = {Exception.class})
+    public ResponseEntity<ResponseDto> globalException(BaseException exception){
+        return new ResponseEntity<>(new ResponseDto()
+                .setMessage(messageSource.getMessage(exception.getMessage(), null, Locale.ENGLISH))
+                .setCreateResponse(LocalDateTime.now())
+                .setStatus(exception.httpStatus().value()),exception.httpStatus());
+    }
+
 }

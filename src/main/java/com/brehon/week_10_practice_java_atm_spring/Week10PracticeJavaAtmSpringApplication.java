@@ -53,7 +53,7 @@ public class Week10PracticeJavaAtmSpringApplication implements ApplicationRunner
         Account account = new Account(user,"bikh", AccountType.getAccountType(3));
         account.setTransactions(transactions);
         accountService.save(account);
-        transactionService.save(new Transaction(null,100d,TransactionType.DEPOSIT, Date.valueOf(LocalDate.now()),account));
+        transactionService.save(new Transaction(null,100d,TransactionType.DEPOSIT, LocalDate.now(),account));
 
         System.out.println(accountService.findAll());
 

@@ -15,29 +15,32 @@ public class UserController {
 
     private final UserService userService;
 
+    private final UserMapper userMapper;
+
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, UserMapper userMapper) {
         this.userService = userService;
+        this.userMapper = userMapper;
     }
 
     @GetMapping("/")
     public List<UserDto> findAll(){
-        return UserMapper.toUserDto(userService.findAll());
+        return userMapper.toUserDto(userService.findAll());
     }
 
     @GetMapping("/d")
     public UserDto findById(@RequestParam(name = "id") Long id){
-        return UserMapper.toUserDto(userService.findById(id).orElseThrow());
+        return userMapper.toUserDto(userService.findById(id).orElseThrow());
     }
 
     @GetMapping("/n")
     public UserDto findByNationalCode(@RequestParam(name = "national_code") String nationalCode){
-        return UserMapper.toUserDto(userService.findByNationalCode(nationalCode));
+        return userMapper.toUserDto(userService.findByNationalCode(nationalCode));
     }
 
     @PostMapping
     public void  save(@RequestBody @Valid UserDto userDto){
-        userService.save(UserMapper.toEntity(userDto));
+        userService.save(userMapper.toUser(userDto));
     }
 
     @DeleteMapping("/{id}")

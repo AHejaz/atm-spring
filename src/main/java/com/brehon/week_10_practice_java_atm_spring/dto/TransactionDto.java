@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -28,5 +29,7 @@ public class TransactionDto {
 
     @NotNull
     @PastOrPresent
-    private Date date;
+    private LocalDate date;
+
+    private AccountDto accountDto;
 }
