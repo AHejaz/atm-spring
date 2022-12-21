@@ -98,6 +98,24 @@ public class AccountServiceImpl implements AccountService {
         });
 
     }
+
+    @Override
+    public void withdraw(String cardNumber, Double amount){
+        Account account = accountRepository.findByCard_CardNumber(cardNumber).orElseThrow(()->{
+                    throw new NotFoundException("no account by this card number");
+                });
+        account.withDraw(amount);
+        accountRepository.save(account);
+    }
+
+    @Override
+    public void deposit(String cardNumber,Double amount){
+        Account account =  accountRepository.findByCard_CardNumber(cardNumber).orElseThrow(()->{
+            throw new NotFoundException("no account by this card number");
+        });
+        account.deposit(amount);
+        accountRepository.save(account);
+    }
     @Override
     public List<Transaction> lastTenTransactions(String cardNumber) {
         List<Transaction> transactions = accountRepository.findByCard_CardNumber(cardNumber).orElseThrow().getTransactions();

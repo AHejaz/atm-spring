@@ -1,6 +1,8 @@
 package com.brehon.week_10_practice_java_atm_spring.service.impl;
 
 import com.brehon.week_10_practice_java_atm_spring.entity.Transaction;
+import com.brehon.week_10_practice_java_atm_spring.entity.enums.TransactionType;
+import com.brehon.week_10_practice_java_atm_spring.exceptions.NotFoundException;
 import com.brehon.week_10_practice_java_atm_spring.repository.TransactionRepository;
 import com.brehon.week_10_practice_java_atm_spring.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,11 +10,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
-    private TransactionRepository transactionRepository;
+    private final TransactionRepository transactionRepository;
 
     @Autowired
     public TransactionServiceImpl(TransactionRepository transactionRepository) {
@@ -29,8 +30,10 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public Optional<Transaction> findById(Long id) {
-        return transactionRepository.findById(id);
+    public Transaction findById(Long id) {
+        return transactionRepository.findById(id).orElseThrow(()->{
+            throw new NotFoundException("this transaction not Fount!");
+        });
     }
 
     @Override
@@ -48,6 +51,12 @@ public class TransactionServiceImpl implements TransactionService {
     public void delete(Transaction transaction) {
         transactionRepository.delete(transaction);
 
+    }
+
+    @Override
+    public void createTransaction(Double amount, TransactionType type){
+        Transaction transaction = new Transaction(amount,type);
+        transactionRepository.save(transaction);
     }
 
     @Override

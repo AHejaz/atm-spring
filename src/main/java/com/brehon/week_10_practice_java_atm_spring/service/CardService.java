@@ -8,7 +8,9 @@ import java.util.Optional;
 public interface CardService {
     void save(Card card);
 
-    Optional<Card> findById(Long id);
+    void createCard(String password);
+
+    Card findById(Long id);
 
     Optional<Card> findByCardNumber(String cardNumber);
 

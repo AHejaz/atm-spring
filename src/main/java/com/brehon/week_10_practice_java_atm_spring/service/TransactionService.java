@@ -1,6 +1,7 @@
 package com.brehon.week_10_practice_java_atm_spring.service;
 
 import com.brehon.week_10_practice_java_atm_spring.entity.Transaction;
+import com.brehon.week_10_practice_java_atm_spring.entity.enums.TransactionType;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,7 +12,7 @@ public interface TransactionService {
 
     void save(Transaction transaction);
 
-    Optional<Transaction> findById(Long id);
+    Transaction findById(Long id);
 
 
     List<Transaction> findAll();
@@ -19,6 +20,8 @@ public interface TransactionService {
     void update(Transaction transaction);
 
     void delete(Transaction transaction);
+
+    void createTransaction(Double amount, TransactionType type);
 
     void deleteById(Long id);
 }

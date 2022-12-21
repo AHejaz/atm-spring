@@ -1,6 +1,7 @@
 package com.brehon.week_10_practice_java_atm_spring.service.impl;
 
 import com.brehon.week_10_practice_java_atm_spring.entity.Card;
+import com.brehon.week_10_practice_java_atm_spring.exceptions.NotFoundException;
 import com.brehon.week_10_practice_java_atm_spring.repository.CardRepository;
 import com.brehon.week_10_practice_java_atm_spring.service.CardService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import java.util.Optional;
 @Service
 public class CardServiceImpl implements CardService {
 
-    private CardRepository cardRepository;
+    private final CardRepository cardRepository;
 
     @Autowired
     public CardServiceImpl(CardRepository cardRepository) {
@@ -26,8 +27,16 @@ public class CardServiceImpl implements CardService {
     }
 
     @Override
-    public Optional<Card> findById(Long id) {
-        return cardRepository.findById(id);
+    public void createCard(String password){
+        Card card = new Card(password);
+        cardRepository.save(card);
+    }
+
+    @Override
+    public Card findById(Long id) {
+        return cardRepository.findById(id).orElseThrow(()->{
+            throw new NotFoundException("card Not Found!");
+        });
     }
 
     @Override

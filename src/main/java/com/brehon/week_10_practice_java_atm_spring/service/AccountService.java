@@ -29,5 +29,9 @@ public interface AccountService {
 
     void moneyTransfer(String cardNum1, String cardNum2, double amount);
 
+    void withdraw(String cardNumber, Double amount);
+
+    void deposit(String cardNumber, Double amount);
+
     List<Transaction> lastTenTransactions(String cardNumber);
 }
