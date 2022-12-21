@@ -42,6 +42,12 @@ public class AccountController {
         return accountMapper.toAccountDto(accountService.findByCardNumber(cardNumber));
     }
 
+    @GetMapping
+    public AccountDto login(@RequestParam("card_number")String cardNumber,
+                            @RequestParam(name = "password",required = false)String password){
+        return accountMapper.toAccountDto(accountService.login(cardNumber,password));
+    }
+
     @PostMapping("")
     public void save(@RequestBody @Valid AccountDto accountDto) {
         accountService.save(accountMapper.toAccount(accountDto));
