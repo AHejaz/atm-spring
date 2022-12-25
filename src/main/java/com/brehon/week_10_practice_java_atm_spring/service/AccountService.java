@@ -1,5 +1,9 @@
 package com.brehon.week_10_practice_java_atm_spring.service;
 
+import com.brehon.week_10_practice_java_atm_spring.dto.AccountDto;
+import com.brehon.week_10_practice_java_atm_spring.dto.DepositWithdrawDto;
+import com.brehon.week_10_practice_java_atm_spring.dto.LoginDto;
+import com.brehon.week_10_practice_java_atm_spring.dto.TransferMoneyDto;
 import com.brehon.week_10_practice_java_atm_spring.entity.Account;
 import com.brehon.week_10_practice_java_atm_spring.entity.Transaction;
 import com.brehon.week_10_practice_java_atm_spring.entity.User;
@@ -8,30 +12,29 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AccountService {
-    void save(Account account);
+    void saveOrUpdate(AccountDto dto);
 
-    Account createAccount(User user, String password, Integer type);
+    AccountDto createAccount(AccountDto dto);
 
     Optional<Account> findById(Long id);
 
-    Account login(String cardNumber,String password);
+    AccountDto login(LoginDto dto);
 
 
-    Account findByCardNumber(String cardNumber);
+    AccountDto findByCardNumber(String cardNumber);
 
-    List<Account> findAll();
+    List<AccountDto> findAll();
 
-    void update(Account account);
 
-    void delete(Account account);
+    void delete(AccountDto dto);
 
     void deleteById(Long id);
 
-    void moneyTransfer(String cardNum1, String cardNum2, double amount);
+    void moneyTransfer(TransferMoneyDto dto);
 
-    void withdraw(String cardNumber, Double amount);
+    void withdraw(DepositWithdrawDto dto);
 
-    void deposit(String cardNumber, Double amount);
+    void deposit(DepositWithdrawDto dto);
 
     List<Transaction> lastTenTransactions(String cardNumber);
 }

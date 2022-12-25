@@ -3,12 +3,15 @@ package com.brehon.week_10_practice_java_atm_spring.controller;
 
 import com.brehon.week_10_practice_java_atm_spring.dto.AccountDto;
 import com.brehon.week_10_practice_java_atm_spring.dto.DepositWithdrawDto;
+import com.brehon.week_10_practice_java_atm_spring.dto.LoginDto;
 import com.brehon.week_10_practice_java_atm_spring.dto.TransferMoneyDto;
 import com.brehon.week_10_practice_java_atm_spring.mapper.AccountMapper;
 import com.brehon.week_10_practice_java_atm_spring.mapper.UserMapper;
 import com.brehon.week_10_practice_java_atm_spring.service.AccountService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,65 +21,53 @@ import java.util.List;
 public class AccountController {
     private final AccountService accountService;
 
-    private final AccountMapper accountMapper;
-
-    private final UserMapper userMapper;
-
-
 
     @Autowired
     public AccountController(AccountService accountService, AccountMapper accountMapper, UserMapper userMapper) {
         this.accountService = accountService;
-        this.accountMapper = accountMapper;
-        this.userMapper = userMapper;
+
     }
 
 
     @GetMapping("/")
     public List<AccountDto> findAll() {
-        return accountMapper.toDto(accountService.findAll());
+        return accountService.findAll();
     }
 
     @GetMapping
     public AccountDto findByCardNumber(@RequestParam("card_number") String cardNumber) {
-        return accountMapper.toDto(accountService.findByCardNumber(cardNumber));
+        return accountService.findByCardNumber(cardNumber);
     }
 
-    @GetMapping("/login")
-    public AccountDto login(@RequestParam("card_number")String cardNumber,
-                            @RequestParam(name = "password",required = false)String password){
-        return accountMapper.toDto(accountService.login(cardNumber,password));
+    @PostMapping("/login")
+    public ResponseEntity<AccountDto> login(@RequestBody @Valid LoginDto dto){
+        return ResponseEntity.ok(accountService.login(dto));
     }
 
-    @PostMapping("")
-    public void save(@RequestBody @Valid AccountDto accountDto) {
-        accountService.save(accountMapper.toEntity(accountDto));
+    @PostMapping(value = "")
+    public ResponseEntity<AccountDto> save(@RequestBody @Valid AccountDto accountDto) {
+        AccountDto account = accountService.createAccount(accountDto);
+        return ResponseEntity.ok(account);
     }
 
-    @PostMapping("/a")
-    public void createdAccount(@RequestBody @Valid AccountDto accountDto) {
-        accountService.createAccount(userMapper.toEntity(accountDto.getUser()),
-                accountDto.getPassword(),
-                accountDto.getType().getValue());
-    }
 
-    @PostMapping("/")
-    public void transferMoney(@RequestBody @Valid TransferMoneyDto transferDto){
-        accountService.moneyTransfer(transferDto.getCardOrigin(),
-                transferDto.getCardDestiny(),
-                transferDto.getAmount());
+
+    @PostMapping("/transfer")
+    public ResponseEntity<Void> transferMoney(@RequestBody @Valid TransferMoneyDto dto){
+        accountService.moneyTransfer(dto);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/w")
-    public void withdraw(@RequestBody @Valid DepositWithdrawDto depositWithdrawDto){
-        accountService.deposit(depositWithdrawDto.getCardNumber(),
-                depositWithdrawDto.getAmount());
+    public ResponseEntity<Void> withdraw(@RequestBody @Valid DepositWithdrawDto dto){
+        accountService.withdraw(dto);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/d")
-    public void deposit(@RequestBody @Valid DepositWithdrawDto depositWithdrawDto){
-        accountService.deposit(depositWithdrawDto.getCardNumber(),
-                depositWithdrawDto.getAmount());
+    public ResponseEntity<Void> deposit(@RequestBody @Valid DepositWithdrawDto dto){
+        accountService.deposit(dto);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
