@@ -30,13 +30,15 @@ public class AccountController {
 
 
     @GetMapping("/")
-    public List<AccountDto> findAll() {
-        return accountService.findAll();
+    public ResponseEntity<List<AccountDto>> findAll() {
+        List<AccountDto> accountDtos = accountService.findAll();
+        return ResponseEntity.ok(accountDtos);
     }
 
     @GetMapping
-    public AccountDto findByCardNumber(@RequestParam("card_number") String cardNumber) {
-        return accountService.findByCardNumber(cardNumber);
+    public ResponseEntity<AccountDto> findByCardNumber(@RequestParam("card_number") String cardNumber) {
+        AccountDto dto =  accountService.findByCardNumber(cardNumber);
+        return ResponseEntity.ok(dto);
     }
 
     @PostMapping("/login")
@@ -71,7 +73,8 @@ public class AccountController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable(name = "id") Long id){
+    public ResponseEntity<Void> deleteById(@PathVariable(name = "id") Long id){
         accountService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
