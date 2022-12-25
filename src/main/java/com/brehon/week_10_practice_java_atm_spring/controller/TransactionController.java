@@ -25,22 +25,22 @@ public class TransactionController {
 
     @GetMapping("/")
     public List<TransactionDto> findAll(){
-        return transactionMapper.toTransactionDto(transactionService.findAll());
+        return transactionMapper.toDto(transactionService.findAll());
     }
 
     @GetMapping("")
     public TransactionDto findById(@RequestParam(name = "id") Long id){
-        return transactionMapper.toTransactionDto(transactionService.findById(id));
+        return transactionMapper.toDto(transactionService.findById(id));
     }
 
     @GetMapping("/{card_number}")
     public List<TransactionDto> lastTenTransaction(@PathVariable(name = "card_number")String cardNumber){
-        return transactionMapper.toTransactionDto(transactionService.lastTenTransaction(cardNumber));
+        return transactionMapper.toDto(transactionService.lastTenTransaction(cardNumber));
     }
 
     @PostMapping
     public void save(@RequestBody @Valid TransactionDto transactionDto){
-        transactionService.save(transactionMapper.toTransaction(transactionDto));
+        transactionService.save(transactionMapper.toEntity(transactionDto));
     }
 
 

@@ -24,17 +24,17 @@ public class CardController {
 
     @GetMapping("/")
     public List<CardDto> findAll(){
-        return cardMapper.toCardDto(cardService.findAll());
+        return cardMapper.toDto(cardService.findAll());
     }
 
     @GetMapping("")
     public CardDto findById(@RequestParam(name = "id")Long id){
-        return cardMapper.toCardDto(cardService.findById(id));
+        return cardMapper.toDto(cardService.findById(id));
     }
 
     @PostMapping
     public void save(@RequestBody @Valid CardDto cardDto){
-        cardService.save(cardMapper.toCard(cardDto));
+        cardService.save(cardMapper.toEntity(cardDto));
     }
 
     @DeleteMapping("/{id}")

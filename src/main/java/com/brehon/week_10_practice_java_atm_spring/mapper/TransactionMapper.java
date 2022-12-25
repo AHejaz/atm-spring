@@ -8,16 +8,16 @@ import org.mapstruct.Mapping;
 import java.util.ArrayList;
 import java.util.List;
 
-@Mapper(componentModel = "spring" /*,uses = AccountMapper.class */)
-public interface TransactionMapper {
+@Mapper(componentModel = "spring" )
+public interface TransactionMapper extends BaseMapper<Transaction,TransactionDto>{
 
-    @Mapping(target = "account", source = "accountDto")
-    Transaction toTransaction(TransactionDto transactionDto);
-
-    @Mapping(source = "account",target = "accountDto")
-    TransactionDto toTransactionDto(Transaction transaction);
-
-    List<TransactionDto> toTransactionDto(List<Transaction> transactions);
-
-    List<Transaction> toTransaction(List<TransactionDto> transactionDtos);
+//    @Mapping(target = "account", source = "accountDto")
+//    Transaction toTransaction(TransactionDto transactionDto);
+//
+//    @Mapping(source = "account",target = "accountDto")
+//    TransactionDto toTransactionDto(Transaction transaction);
+//
+//    List<TransactionDto> toTransactionDto(List<Transaction> transactions);
+//
+//    List<Transaction> toTransaction(List<TransactionDto> transactionDtos);
 }

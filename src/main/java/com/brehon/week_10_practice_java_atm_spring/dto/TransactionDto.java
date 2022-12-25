@@ -31,5 +31,4 @@ public class TransactionDto {
     @PastOrPresent
     private LocalDate date;
 
-    private AccountDto accountDto;
 }

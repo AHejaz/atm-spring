@@ -25,22 +25,22 @@ public class UserController {
 
     @GetMapping("/")
     public List<UserDto> findAll(){
-        return userMapper.toUserDto(userService.findAll());
+        return userMapper.toDto(userService.findAll());
     }
 
     @GetMapping("/d")
     public UserDto findById(@RequestParam(name = "id") Long id){
-        return userMapper.toUserDto(userService.findById(id).orElseThrow());
+        return userMapper.toDto(userService.findById(id).orElseThrow());
     }
 
     @GetMapping("/n")
     public UserDto findByNationalCode(@RequestParam(name = "national_code") String nationalCode){
-        return userMapper.toUserDto(userService.findByNationalCode(nationalCode));
+        return userMapper.toDto(userService.findByNationalCode(nationalCode));
     }
 
     @PostMapping
     public void  save(@RequestBody @Valid UserDto userDto){
-        userService.save(userMapper.toUser(userDto));
+        userService.save(userMapper.toEntity(userDto));
     }
 
     @DeleteMapping("/{id}")

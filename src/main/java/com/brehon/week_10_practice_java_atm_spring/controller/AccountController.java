@@ -34,28 +34,28 @@ public class AccountController {
 
     @GetMapping("/")
     public List<AccountDto> findAll() {
-        return accountMapper.toAccountDto(accountService.findAll());
+        return accountMapper.toDto(accountService.findAll());
     }
 
     @GetMapping
     public AccountDto findByCardNumber(@RequestParam("card_number") String cardNumber) {
-        return accountMapper.toAccountDto(accountService.findByCardNumber(cardNumber));
+        return accountMapper.toDto(accountService.findByCardNumber(cardNumber));
     }
 
-    @GetMapping
+    @GetMapping("/login")
     public AccountDto login(@RequestParam("card_number")String cardNumber,
                             @RequestParam(name = "password",required = false)String password){
-        return accountMapper.toAccountDto(accountService.login(cardNumber,password));
+        return accountMapper.toDto(accountService.login(cardNumber,password));
     }
 
     @PostMapping("")
     public void save(@RequestBody @Valid AccountDto accountDto) {
-        accountService.save(accountMapper.toAccount(accountDto));
+        accountService.save(accountMapper.toEntity(accountDto));
     }
 
     @PostMapping("/a")
     public void createdAccount(@RequestBody @Valid AccountDto accountDto) {
-        accountService.createAccount(userMapper.toUser(accountDto.getUserDto()),
+        accountService.createAccount(userMapper.toEntity(accountDto.getUser()),
                 accountDto.getPassword(),
                 accountDto.getType().getValue());
     }

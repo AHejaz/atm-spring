@@ -38,11 +38,11 @@ public class AccountDto {
     private AccountType type;
 
     @NotNull
-    private UserDto userDto;
+    private UserDto user;
 
     @NotNull
-    private CardDto cardDto;
+    private CardDto card;
 
-    private List<TransactionDto> transactionDtos;
+    private List<TransactionDto> transactions;
 
 }
