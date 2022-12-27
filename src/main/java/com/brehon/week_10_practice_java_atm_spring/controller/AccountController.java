@@ -23,7 +23,7 @@ public class AccountController {
 
 
     @Autowired
-    public AccountController(AccountService accountService, AccountMapper accountMapper, UserMapper userMapper) {
+    public AccountController(AccountService accountService) {
         this.accountService = accountService;
 
     }
@@ -38,6 +38,12 @@ public class AccountController {
     @GetMapping
     public ResponseEntity<AccountDto> findByCardNumber(@RequestParam("card_number") String cardNumber) {
         AccountDto dto =  accountService.findByCardNumber(cardNumber);
+        return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<AccountDto> findById(@PathVariable(name = "id") Long id){
+        AccountDto dto = accountService.findById(id);
         return ResponseEntity.ok(dto);
     }
 

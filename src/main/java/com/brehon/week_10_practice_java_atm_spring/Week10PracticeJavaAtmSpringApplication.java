@@ -43,20 +43,20 @@ public class Week10PracticeJavaAtmSpringApplication implements ApplicationRunner
 
         User user = new User("milad","ghasemi","564645", LocalDate.now());
 
-        userService.save(user);
-//        user.setId(userService.findByNationalCode("564645").get().getId());
-        List<Transaction> transactions = new ArrayList<>();
-
-//        transactionService.save(new Transaction(10d, TransactionType.WITHDRAW));
-//        transactionService.save(new Transaction(30d, TransactionType.WITHDRAW));
-//        transactionService.save(new Transaction(50d, TransactionType.DEPOSIT));
-
-        Account account = new Account(user,"bikh", AccountType.getAccountType(3));
-        account.setTransactions(transactions);
-        accountService.save(account);
-        transactionService.save(new Transaction(null,100d,TransactionType.DEPOSIT, LocalDate.now(),account));
-
-        System.out.println(accountService.findAll());
+//        userService.save(user);
+////        user.setId(userService.findByNationalCode("564645").get().getId());
+//        List<Transaction> transactions = new ArrayList<>();
+//
+////        transactionService.save(new Transaction(10d, TransactionType.WITHDRAW));
+////        transactionService.save(new Transaction(30d, TransactionType.WITHDRAW));
+////        transactionService.save(new Transaction(50d, TransactionType.DEPOSIT));
+//
+//        Account account = new Account(user,"bikh", AccountType.getAccountType(3));
+//        account.setTransactions(transactions);
+//        accountService.save(account);
+//        transactionService.save(new Transaction(null,100d,TransactionType.DEPOSIT, LocalDate.now(),account));
+//
+//        System.out.println(accountService.findAll());
 
 
     }

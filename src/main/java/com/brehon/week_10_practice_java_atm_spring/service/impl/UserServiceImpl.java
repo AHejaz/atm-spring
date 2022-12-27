@@ -1,9 +1,11 @@
 package com.brehon.week_10_practice_java_atm_spring.service.impl;
 
+import com.brehon.week_10_practice_java_atm_spring.dto.UserDto;
 import com.brehon.week_10_practice_java_atm_spring.entity.User;
 import com.brehon.week_10_practice_java_atm_spring.exceptions.AgeException;
 import com.brehon.week_10_practice_java_atm_spring.exceptions.InvalidInputException;
 import com.brehon.week_10_practice_java_atm_spring.exceptions.NotFoundException;
+import com.brehon.week_10_practice_java_atm_spring.mapper.UserMapper;
 import com.brehon.week_10_practice_java_atm_spring.repository.UserRepository;
 import com.brehon.week_10_practice_java_atm_spring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,54 +13,49 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
+    private final UserMapper userMapper;
+
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
         this.userRepository = userRepository;
+        this.userMapper = userMapper;
     }
 
     @Override
-    public User createUser(String name, String family, String nationalCode, LocalDate birthday){
-        if (userRepository.findByNationalCode(nationalCode).isPresent())
+    public UserDto createUser(UserDto userDto){
+        if (userRepository.findByNationalCode(userDto.getNationalCode()).isPresent())
             throw new InvalidInputException("this user already exist!");
-        if (LocalDate.now().getYear() - birthday.getYear()< 18)
+        if (LocalDate.now().getYear() - userDto.getBirthday().getYear()< 18)
             throw new AgeException();
 
-        User user = new User(name,family,nationalCode,birthday);
-        userRepository.save(user);
-        return user;
+        User user = userMapper.toEntity(userDto);
+        return userMapper.toDto(userRepository.save(user));
+    }
+
+
+
+    @Override
+    public UserDto findById(Long id) {
+        return userMapper.toDto(userRepository.findById(id).orElseThrow(()->{
+            throw new NotFoundException("user not found");
+        }));
     }
 
     @Override
-    public void save(User user) {
-        userRepository.save(user);
+    public List<UserDto> findAll() {
+        return userMapper.toDto(userRepository.findAll());
     }
 
-    @Override
-    public Optional<User> findById(Long id) {
-        return userRepository.findById(id);
-    }
 
     @Override
-    public List<User> findAll() {
-        return userRepository.findAll();
-    }
-
-    @Override
-    public void update(User user) {
-        if (userRepository.existsById(user.getId()))
-            userRepository.save(user);
-    }
-
-    @Override
-    public void delete(User user) {
-        userRepository.delete(user);
+    public void delete(UserDto user) {
+        userRepository.delete(userMapper.toEntity(user));
     }
 
     @Override
@@ -67,9 +64,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByNationalCode(String nationalCode) {
-        return userRepository.findByNationalCode(nationalCode).orElseThrow(()->
+    public UserDto findByNationalCode(String nationalCode) {
+        User user= userRepository.findByNationalCode(nationalCode).orElseThrow(()->
                 {throw new NotFoundException("account with this nationalCode not found");
                 });
+        return userMapper.toDto(user);
     }
 }

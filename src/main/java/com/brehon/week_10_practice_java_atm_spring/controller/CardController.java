@@ -5,6 +5,8 @@ import com.brehon.week_10_practice_java_atm_spring.mapper.CardMapper;
 import com.brehon.week_10_practice_java_atm_spring.service.CardService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,31 +16,34 @@ import java.util.List;
 public class CardController {
 
     private final CardService cardService;
-    private final CardMapper cardMapper;
+
 
     @Autowired
-    public CardController(CardService cardService, CardMapper cardMapper) {
+    public CardController(CardService cardService) {
         this.cardService = cardService;
-        this.cardMapper = cardMapper;
     }
 
     @GetMapping("/")
-    public List<CardDto> findAll(){
-        return cardMapper.toDto(cardService.findAll());
+    public ResponseEntity<List<CardDto>> findAll(){
+        List<CardDto> dtoList = cardService.findAll();
+        return ResponseEntity.ok(dtoList);
     }
 
-    @GetMapping("")
-    public CardDto findById(@RequestParam(name = "id")Long id){
-        return cardMapper.toDto(cardService.findById(id));
+    @GetMapping("/{id}")
+    public ResponseEntity<CardDto> findById(@PathVariable(name = "id")Long id){
+        CardDto cardDto= cardService.findById(id);
+        return ResponseEntity.ok(cardDto);
     }
 
     @PostMapping
-    public void save(@RequestBody @Valid CardDto cardDto){
-        cardService.save(cardMapper.toEntity(cardDto));
+    public ResponseEntity<CardDto> save(@RequestBody @Valid CardDto cardDto){
+        CardDto card=cardService.createCard(cardDto);
+        return ResponseEntity.ok(card);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable(name = "id")Long id){
+    public ResponseEntity<Void> deleteById(@PathVariable(name = "id")Long id){
         cardService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

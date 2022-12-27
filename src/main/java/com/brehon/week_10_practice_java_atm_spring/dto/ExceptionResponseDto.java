@@ -6,13 +6,19 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
-public class ResponseDto {
-    private String message;
-    private LocalDateTime createResponse;
+public class ExceptionResponseDto {
+
+    private LocalDateTime timeStamp;
+
     private Integer status;
+
+    private String error;
+
+    private String message;
 }

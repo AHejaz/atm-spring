@@ -1,5 +1,6 @@
 package com.brehon.week_10_practice_java_atm_spring.service;
 
+import com.brehon.week_10_practice_java_atm_spring.dto.UserDto;
 import com.brehon.week_10_practice_java_atm_spring.entity.User;
 
 import java.time.LocalDate;
@@ -7,20 +8,17 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
-    User createUser(String name, String family, String nationalCode, LocalDate birthday);
-
-    void save(User user);
-
-    Optional<User> findById(Long id);
+    UserDto createUser(UserDto userDto);
 
 
-    List<User> findAll();
+    UserDto findById(Long id);
 
-    void update(User user);
 
-    void delete(User user);
+    List<UserDto> findAll();
+
+    void delete(UserDto user);
 
     void deleteById(Long id);
 
-    User findByNationalCode(String nationalCode);
+    UserDto findByNationalCode(String nationalCode);
 }

@@ -14,7 +14,7 @@ public class AccountNotFindException extends BaseException{
 
     @Override
     protected HttpStatus httpStatus() {
-        return HttpStatus.BAD_REQUEST;
+        return HttpStatus.NOT_FOUND;
     }
 
     @Override

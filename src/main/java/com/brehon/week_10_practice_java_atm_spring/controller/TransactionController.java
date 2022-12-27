@@ -2,10 +2,13 @@ package com.brehon.week_10_practice_java_atm_spring.controller;
 
 import com.brehon.week_10_practice_java_atm_spring.dto.TransactionDto;
 import com.brehon.week_10_practice_java_atm_spring.dto.TransferMoneyDto;
+import com.brehon.week_10_practice_java_atm_spring.entity.Transaction;
 import com.brehon.week_10_practice_java_atm_spring.mapper.TransactionMapper;
 import com.brehon.week_10_practice_java_atm_spring.service.TransactionService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,39 +18,42 @@ import java.util.List;
 public class TransactionController {
 
     private final TransactionService transactionService;
-    private final TransactionMapper transactionMapper;
+
 
     @Autowired
-    public TransactionController(TransactionService transactionService, TransactionMapper transactionMapper) {
+    public TransactionController(TransactionService transactionService) {
         this.transactionService = transactionService;
-        this.transactionMapper = transactionMapper;
     }
 
     @GetMapping("/")
-    public List<TransactionDto> findAll(){
-        return transactionMapper.toDto(transactionService.findAll());
+    public ResponseEntity<List<TransactionDto>> findAll() {
+        List<TransactionDto> dtoList = transactionService.findAll();
+        return ResponseEntity.ok(dtoList);
     }
 
-    @GetMapping("")
-    public TransactionDto findById(@RequestParam(name = "id") Long id){
-        return transactionMapper.toDto(transactionService.findById(id));
+    @GetMapping("/{id}")
+    public ResponseEntity<TransactionDto> findById(@PathVariable(name = "id") Long id) {
+        TransactionDto dto = transactionService.findById(id);
+        return ResponseEntity.ok(dto);
     }
 
     @GetMapping("/{card_number}")
-    public List<TransactionDto> lastTenTransaction(@PathVariable(name = "card_number")String cardNumber){
-        return transactionMapper.toDto(transactionService.lastTenTransaction(cardNumber));
+    public ResponseEntity<List<TransactionDto>> lastTenTransaction(@PathVariable(name = "card_number") String cardNumber) {
+        List<TransactionDto> dtoList = transactionService.lastTenTransaction(cardNumber);
+        return ResponseEntity.ok(dtoList);
     }
 
     @PostMapping
-    public void save(@RequestBody @Valid TransactionDto transactionDto){
-        transactionService.save(transactionMapper.toEntity(transactionDto));
+    public ResponseEntity<TransactionDto> save(@RequestBody @Valid TransactionDto transactionDto) {
+        TransactionDto dto = transactionService.createTransaction(transactionDto);
+        return ResponseEntity.ok(dto);
     }
 
 
-
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable(name = "id")Long id){
+    public ResponseEntity<Void> deleteById(@PathVariable(name = "id") Long id) {
         transactionService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

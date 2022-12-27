@@ -46,8 +46,10 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Optional<Account> findById(Long id) {
-        return accountRepository.findById(id);
+    public AccountDto findById(Long id) {
+        return accountMapper.toDto(accountRepository.findById(id).orElseThrow(()->{
+            throw new NotFoundException("account not found");
+        }));
     }
 
     @Override
@@ -117,13 +119,5 @@ public class AccountServiceImpl implements AccountService {
         account.deposit(dto.getAmount());
         accountRepository.save(account);
     }
-    @Override
-    public List<Transaction> lastTenTransactions(String cardNumber) {
-        List<Transaction> transactions = accountRepository.findByCard_CardNumber(cardNumber).orElseThrow().getTransactions();
-        if (transactions.isEmpty())
-            throw new NotFoundException("There is no transaction");
-        Collections.reverse(transactions);
-        transactions.subList(0, transactions.size() < 10 ? transactions.size() : 9);
-        return transactions;
-    }
+
 }

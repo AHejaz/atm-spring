@@ -1,8 +1,10 @@
 package com.brehon.week_10_practice_java_atm_spring.service.impl;
 
+import com.brehon.week_10_practice_java_atm_spring.dto.TransactionDto;
 import com.brehon.week_10_practice_java_atm_spring.entity.Transaction;
 import com.brehon.week_10_practice_java_atm_spring.entity.enums.TransactionType;
 import com.brehon.week_10_practice_java_atm_spring.exceptions.NotFoundException;
+import com.brehon.week_10_practice_java_atm_spring.mapper.TransactionMapper;
 import com.brehon.week_10_practice_java_atm_spring.repository.TransactionRepository;
 import com.brehon.week_10_practice_java_atm_spring.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,48 +17,48 @@ import java.util.List;
 public class TransactionServiceImpl implements TransactionService {
     private final TransactionRepository transactionRepository;
 
+    private final TransactionMapper transactionMapper;
+
     @Autowired
-    public TransactionServiceImpl(TransactionRepository transactionRepository) {
+    public TransactionServiceImpl(TransactionRepository transactionRepository, TransactionMapper transactionMapper) {
         this.transactionRepository = transactionRepository;
+        this.transactionMapper = transactionMapper;
     }
 
     @Override
-    public List<Transaction> lastTenTransaction(String cardNumber){
-        return transactionRepository.findByAccount_Card_CardNumberOrderByDateDesc(cardNumber, PageRequest.of(0,10)).getContent();
+    public List<TransactionDto> lastTenTransaction(String cardNumber){
+        return transactionMapper.toDto(transactionRepository.findByAccount_Card_CardNumberOrderByDateDesc(cardNumber, PageRequest.of(0,10)).getContent());
     }
     @Override
-    public void save(Transaction transaction) {
+    public TransactionDto saveOrUpdate(TransactionDto dto) {
+        Transaction transaction = transactionMapper.toEntity(dto);
         transactionRepository.save(transaction);
+        return transactionMapper.toDto(transaction);
     }
 
     @Override
-    public Transaction findById(Long id) {
-        return transactionRepository.findById(id).orElseThrow(()->{
+    public TransactionDto findById(Long id) {
+        return transactionMapper.toDto(transactionRepository.findById(id).orElseThrow(()->{
             throw new NotFoundException("this transaction not Fount!");
-        });
+        }));
     }
 
     @Override
-    public List<Transaction> findAll() {
-        return transactionRepository.findAll();
+    public List<TransactionDto> findAll() {
+        return transactionMapper.toDto(transactionRepository.findAll());
+    }
+
+
+
+    @Override
+    public void delete(TransactionDto transaction) {
+        transactionRepository.delete(transactionMapper.toEntity(transaction));
     }
 
     @Override
-    public void update(Transaction transaction) {
-        if (transactionRepository.existsById(transaction.getId()))
-            transactionRepository.save(transaction);
-    }
-
-    @Override
-    public void delete(Transaction transaction) {
-        transactionRepository.delete(transaction);
-
-    }
-
-    @Override
-    public void createTransaction(Double amount, TransactionType type){
-        Transaction transaction = new Transaction(amount,type);
-        transactionRepository.save(transaction);
+    public TransactionDto createTransaction(TransactionDto dto){
+        Transaction transaction = transactionMapper.toEntity(dto);
+        return transactionMapper.toDto(transaction);
     }
 
     @Override

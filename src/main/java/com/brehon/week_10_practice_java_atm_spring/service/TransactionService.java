@@ -1,5 +1,6 @@
 package com.brehon.week_10_practice_java_atm_spring.service;
 
+import com.brehon.week_10_practice_java_atm_spring.dto.TransactionDto;
 import com.brehon.week_10_practice_java_atm_spring.entity.Transaction;
 import com.brehon.week_10_practice_java_atm_spring.entity.enums.TransactionType;
 
@@ -8,20 +9,19 @@ import java.util.Optional;
 
 
 public interface TransactionService {
-    List<Transaction> lastTenTransaction(String cardNumber);
+    List<TransactionDto> lastTenTransaction(String cardNumber);
 
-    void save(Transaction transaction);
+    TransactionDto saveOrUpdate(TransactionDto transaction);
 
-    Transaction findById(Long id);
+    TransactionDto findById(Long id);
 
 
-    List<Transaction> findAll();
+    List<TransactionDto> findAll();
 
-    void update(Transaction transaction);
 
-    void delete(Transaction transaction);
+    void delete(TransactionDto transaction);
 
-    void createTransaction(Double amount, TransactionType type);
+    TransactionDto createTransaction(TransactionDto dto);
 
     void deleteById(Long id);
 }

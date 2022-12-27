@@ -1,15 +1,15 @@
 package com.brehon.week_10_practice_java_atm_spring.exceptions;
 
-import com.brehon.week_10_practice_java_atm_spring.dto.ResponseDto;
+import com.brehon.week_10_practice_java_atm_spring.dto.ExceptionResponseDto;
 import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class ExceptionHandler extends ResponseEntityExceptionHandler {
 
 
@@ -20,18 +20,18 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @org.springframework.web.bind.annotation.ExceptionHandler(value = {BaseException.class})
-    public ResponseEntity<ResponseDto> handleBaseException(BaseException exception){
-        return new ResponseEntity<>(new ResponseDto()
+    public ResponseEntity<ExceptionResponseDto> handleBaseException(BaseException exception){
+        return new ResponseEntity<>(new ExceptionResponseDto()
                 .setMessage(messageSource.getMessage(exception.getMessage(), null, Locale.ENGLISH))
-                .setCreateResponse(LocalDateTime.now())
+                .setTimeStamp(LocalDateTime.now())
                 .setStatus(exception.httpStatus().value()),exception.httpStatus());
     }
 
     @org.springframework.web.bind.annotation.ExceptionHandler(value = {Exception.class})
-    public ResponseEntity<ResponseDto> globalException(BaseException exception){
-        return new ResponseEntity<>(new ResponseDto()
+    public ResponseEntity<ExceptionResponseDto> globalException(BaseException exception){
+        return new ResponseEntity<>(new ExceptionResponseDto()
                 .setMessage(messageSource.getMessage(exception.getMessage(), null, Locale.ENGLISH))
-                .setCreateResponse(LocalDateTime.now())
+                .setTimeStamp(LocalDateTime.now())
                 .setStatus(exception.httpStatus().value()),exception.httpStatus());
     }
 

@@ -1,24 +1,24 @@
 package com.brehon.week_10_practice_java_atm_spring.service;
 
+import com.brehon.week_10_practice_java_atm_spring.dto.CardDto;
 import com.brehon.week_10_practice_java_atm_spring.entity.Card;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface CardService {
-    void save(Card card);
+    void saveOrUpdate(CardDto dto);
 
-    void createCard(String password);
+    CardDto createCard(CardDto dto);
 
-    Card findById(Long id);
+    CardDto findById(Long id);
 
-    Optional<Card> findByCardNumber(String cardNumber);
+    CardDto findByCardNumber(String cardNumber);
 
-    List<Card> findAll();
+    List<CardDto> findAll();
 
-    void update(Card card);
 
-    void delete(Card card);
+    void delete(CardDto dto);
 
 
     void deleteById(Long id);

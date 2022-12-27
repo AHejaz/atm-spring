@@ -5,6 +5,8 @@ import com.brehon.week_10_practice_java_atm_spring.mapper.UserMapper;
 import com.brehon.week_10_practice_java_atm_spring.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,36 +17,40 @@ public class UserController {
 
     private final UserService userService;
 
-    private final UserMapper userMapper;
+
 
     @Autowired
-    public UserController(UserService userService, UserMapper userMapper) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.userMapper = userMapper;
     }
 
     @GetMapping("/")
-    public List<UserDto> findAll(){
-        return userMapper.toDto(userService.findAll());
+    public ResponseEntity<List<UserDto>> findAll(){
+        List<UserDto> dtoList =  userService.findAll();
+        return ResponseEntity.ok(dtoList);
     }
 
-    @GetMapping("/d")
-    public UserDto findById(@RequestParam(name = "id") Long id){
-        return userMapper.toDto(userService.findById(id).orElseThrow());
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDto> findById(@PathVariable(name = "id") Long id){
+        UserDto dto =  userService.findById(id);
+        return ResponseEntity.ok(dto);
     }
 
     @GetMapping("/n")
-    public UserDto findByNationalCode(@RequestParam(name = "national_code") String nationalCode){
-        return userMapper.toDto(userService.findByNationalCode(nationalCode));
+    public ResponseEntity<UserDto> findByNationalCode(@RequestParam(name = "national_code") String nationalCode){
+        UserDto dto =  userService.findByNationalCode(nationalCode);
+        return ResponseEntity.ok(dto);
     }
 
     @PostMapping
-    public void  save(@RequestBody @Valid UserDto userDto){
-        userService.save(userMapper.toEntity(userDto));
+    public ResponseEntity<UserDto>  save(@RequestBody @Valid UserDto userDto){
+        UserDto dto = userService.createUser(userDto);
+        return ResponseEntity.ok(dto);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable(name = "id") Long id){
+    public ResponseEntity<Void> deleteById(@PathVariable(name = "id") Long id){
         userService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

@@ -16,7 +16,7 @@ public interface AccountService {
 
     AccountDto createAccount(AccountDto dto);
 
-    Optional<Account> findById(Long id);
+    AccountDto findById(Long id);
 
     AccountDto login(LoginDto dto);
 
@@ -36,5 +36,4 @@ public interface AccountService {
 
     void deposit(DepositWithdrawDto dto);
 
-    List<Transaction> lastTenTransactions(String cardNumber);
 }

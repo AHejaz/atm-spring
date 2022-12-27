@@ -1,7 +1,9 @@
 package com.brehon.week_10_practice_java_atm_spring.service.impl;
 
+import com.brehon.week_10_practice_java_atm_spring.dto.CardDto;
 import com.brehon.week_10_practice_java_atm_spring.entity.Card;
 import com.brehon.week_10_practice_java_atm_spring.exceptions.NotFoundException;
+import com.brehon.week_10_practice_java_atm_spring.mapper.CardMapper;
 import com.brehon.week_10_practice_java_atm_spring.repository.CardRepository;
 import com.brehon.week_10_practice_java_atm_spring.service.CardService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,50 +17,51 @@ public class CardServiceImpl implements CardService {
 
     private final CardRepository cardRepository;
 
+    private final CardMapper cardMapper;
+
     @Autowired
-    public CardServiceImpl(CardRepository cardRepository) {
+    public CardServiceImpl(CardRepository cardRepository, CardMapper cardMapper) {
         this.cardRepository = cardRepository;
+        this.cardMapper = cardMapper;
     }
 
 
     @Override
-    public void save(Card card) {
-        cardRepository.save(card);
+    public void saveOrUpdate(CardDto dto) {
+        cardRepository.save(cardMapper.toEntity(dto));
     }
 
     @Override
-    public void createCard(String password){
-        Card card = new Card(password);
-        cardRepository.save(card);
+    public CardDto createCard(CardDto dto){
+        Card card = cardMapper.toEntity(dto);
+        return cardMapper.toDto(cardRepository.save(card));
     }
 
     @Override
-    public Card findById(Long id) {
-        return cardRepository.findById(id).orElseThrow(()->{
+    public CardDto findById(Long id) {
+        return cardMapper.toDto(cardRepository.findById(id).orElseThrow(()->{
             throw new NotFoundException("card Not Found!");
-        });
+        }));
     }
 
     @Override
-    public Optional<Card> findByCardNumber(String cardNumber) {
-        return cardRepository.findByCardNumber(cardNumber);
+    public CardDto findByCardNumber(String cardNumber) {
+        return cardMapper.toDto(cardRepository.findByCardNumber(cardNumber).orElseThrow(()->{
+            throw new NotFoundException("card Not Found!");
+        }));
     }
 
 
     @Override
-    public List<Card> findAll() {
-        return cardRepository.findAll();
+    public List<CardDto> findAll() {
+        return cardMapper.toDto(cardRepository.findAll());
     }
 
-    @Override
-    public void update(Card card) {
-        if (cardRepository.existsById(card.getId()))
-            cardRepository.save(card);
-    }
+
 
     @Override
-    public void delete(Card card) {
-        cardRepository.delete(card);
+    public void delete(CardDto dto) {
+        cardRepository.delete(cardMapper.toEntity(dto));
     }
 
     @Override
