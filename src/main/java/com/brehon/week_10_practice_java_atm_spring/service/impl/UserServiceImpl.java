@@ -12,62 +12,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends BaseCrud<User,UserDto,UserMapper,UserRepository,Long>implements UserService {
 
-    private final UserRepository userRepository;
 
-    private final UserMapper userMapper;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
-        this.userRepository = userRepository;
-        this.userMapper = userMapper;
+        super(userMapper,userRepository);
     }
 
     @Override
     public UserDto createUser(UserDto userDto){
-        if (userRepository.findByNationalCode(userDto.getNationalCode()).isPresent())
+        if (repository.findByNationalCode(userDto.getNationalCode()).isPresent())
             throw new InvalidInputException("this user already exist!");
         if (LocalDate.now().getYear() - userDto.getBirthday().getYear()< 18)
             throw new AgeException();
 
-        User user = userMapper.toEntity(userDto);
-        return userMapper.toDto(userRepository.save(user));
+        User user = mapper.toEntity(userDto);
+        return mapper.toDto(repository.save(user));
     }
 
-
-
-    @Override
-    public UserDto findById(Long id) {
-        return userMapper.toDto(userRepository.findById(id).orElseThrow(()->{
-            throw new NotFoundException("user not found");
-        }));
-    }
-
-    @Override
-    public List<UserDto> findAll() {
-        return userMapper.toDto(userRepository.findAll());
-    }
-
-
-    @Override
-    public void delete(UserDto user) {
-        userRepository.delete(userMapper.toEntity(user));
-    }
-
-    @Override
-    public void deleteById(Long id) {
-        userRepository.deleteById(id);
-    }
 
     @Override
     public UserDto findByNationalCode(String nationalCode) {
-        User user= userRepository.findByNationalCode(nationalCode).orElseThrow(()->
+        User user= repository.findByNationalCode(nationalCode).orElseThrow(()->
                 {throw new NotFoundException("account with this nationalCode not found");
                 });
-        return userMapper.toDto(user);
+        return mapper.toDto(user);
     }
 }

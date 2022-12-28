@@ -1,10 +1,7 @@
 package com.brehon.week_10_practice_java_atm_spring.controller;
 
 
-import com.brehon.week_10_practice_java_atm_spring.dto.AccountDto;
-import com.brehon.week_10_practice_java_atm_spring.dto.DepositWithdrawDto;
-import com.brehon.week_10_practice_java_atm_spring.dto.LoginDto;
-import com.brehon.week_10_practice_java_atm_spring.dto.TransferMoneyDto;
+import com.brehon.week_10_practice_java_atm_spring.dto.*;
 import com.brehon.week_10_practice_java_atm_spring.mapper.AccountMapper;
 import com.brehon.week_10_practice_java_atm_spring.mapper.UserMapper;
 import com.brehon.week_10_practice_java_atm_spring.service.AccountService;
@@ -48,13 +45,13 @@ public class AccountController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AccountDto> login(@RequestBody @Valid LoginDto dto){
+    public ResponseEntity<LoginResponseDto> login(@RequestBody @Valid LoginDto dto){
         return ResponseEntity.ok(accountService.login(dto));
     }
 
     @PostMapping(value = "")
     public ResponseEntity<AccountDto> save(@RequestBody @Valid AccountDto accountDto) {
-        AccountDto account = accountService.createAccount(accountDto);
+        AccountDto account = accountService.saveOrUpdate(accountDto);
         return ResponseEntity.ok(account);
     }
 

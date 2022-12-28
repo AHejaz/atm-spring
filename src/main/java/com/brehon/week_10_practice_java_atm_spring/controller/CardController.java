@@ -37,7 +37,7 @@ public class CardController {
 
     @PostMapping
     public ResponseEntity<CardDto> save(@RequestBody @Valid CardDto cardDto){
-        CardDto card=cardService.createCard(cardDto);
+        CardDto card=cardService.saveOrUpdate(cardDto);
         return ResponseEntity.ok(card);
     }
 

@@ -6,20 +6,8 @@ import com.brehon.week_10_practice_java_atm_spring.entity.Card;
 import java.util.List;
 import java.util.Optional;
 
-public interface CardService {
-    void saveOrUpdate(CardDto dto);
-
-    CardDto createCard(CardDto dto);
-
-    CardDto findById(Long id);
+public interface CardService extends BaseService<CardDto,Long>{
 
     CardDto findByCardNumber(String cardNumber);
 
-    List<CardDto> findAll();
-
-
-    void delete(CardDto dto);
-
-
-    void deleteById(Long id);
 }

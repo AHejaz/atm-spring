@@ -5,6 +5,9 @@ import com.brehon.week_10_practice_java_atm_spring.entity.Transaction;
 import com.brehon.week_10_practice_java_atm_spring.entity.User;
 import com.brehon.week_10_practice_java_atm_spring.entity.enums.AccountType;
 import com.brehon.week_10_practice_java_atm_spring.entity.enums.TransactionType;
+import com.brehon.week_10_practice_java_atm_spring.mapper.AccountMapper;
+import com.brehon.week_10_practice_java_atm_spring.mapper.TransactionMapper;
+import com.brehon.week_10_practice_java_atm_spring.mapper.UserMapper;
 import com.brehon.week_10_practice_java_atm_spring.service.AccountService;
 import com.brehon.week_10_practice_java_atm_spring.service.TransactionService;
 import com.brehon.week_10_practice_java_atm_spring.service.UserService;
@@ -34,6 +37,14 @@ public class Week10PracticeJavaAtmSpringApplication implements ApplicationRunner
     @Autowired
     private AccountService accountService;
 
+    @Autowired
+    private UserMapper userMapper;
+
+    @Autowired
+    private AccountMapper accountMapper;
+
+    @Autowired
+    private TransactionMapper transactionMapper;
     public static void main(String[] args) {
         SpringApplication.run(Week10PracticeJavaAtmSpringApplication.class, args);
     }
@@ -41,22 +52,24 @@ public class Week10PracticeJavaAtmSpringApplication implements ApplicationRunner
     @Override
     public void run(ApplicationArguments args) throws Exception {
 
-        User user = new User("milad","ghasemi","564645", LocalDate.now());
 
-//        userService.save(user);
+//        User user = new User("milad","ghasemi","12345678900", LocalDate.of(1998,10,20));
+//
+//        userService.createUser(userMapper.toDto(user));
 ////        user.setId(userService.findByNationalCode("564645").get().getId());
 //        List<Transaction> transactions = new ArrayList<>();
 //
-////        transactionService.save(new Transaction(10d, TransactionType.WITHDRAW));
+////        transactionService.createTransaction(new Transaction(10d, TransactionType.WITHDRAW));
 ////        transactionService.save(new Transaction(30d, TransactionType.WITHDRAW));
 ////        transactionService.save(new Transaction(50d, TransactionType.DEPOSIT));
 //
 //        Account account = new Account(user,"bikh", AccountType.getAccountType(3));
 //        account.setTransactions(transactions);
-//        accountService.save(account);
-//        transactionService.save(new Transaction(null,100d,TransactionType.DEPOSIT, LocalDate.now(),account));
+//        accountService.createAccount(accountMapper.toDto(account));
 //
-//        System.out.println(accountService.findAll());
+//        transactionService.createTransaction(transactionMapper.toDto(new Transaction(null,100d,TransactionType.DEPOSIT, LocalDate.now(),account)));
+//
+////        System.out.println(accountService.findAll());
 
 
     }

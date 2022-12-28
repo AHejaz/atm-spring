@@ -8,20 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-public interface TransactionService {
+public interface TransactionService extends BaseService<TransactionDto,Long>{
     List<TransactionDto> lastTenTransaction(String cardNumber);
 
-    TransactionDto saveOrUpdate(TransactionDto transaction);
-
-    TransactionDto findById(Long id);
-
-
-    List<TransactionDto> findAll();
-
-
-    void delete(TransactionDto transaction);
-
-    TransactionDto createTransaction(TransactionDto dto);
-
-    void deleteById(Long id);
 }

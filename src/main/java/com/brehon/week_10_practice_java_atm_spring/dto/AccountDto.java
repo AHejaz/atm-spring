@@ -1,10 +1,7 @@
 package com.brehon.week_10_practice_java_atm_spring.dto;
 
 import com.brehon.week_10_practice_java_atm_spring.entity.enums.AccountType;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,7 +28,7 @@ public class AccountDto {
     private String password;
 
     @NotNull
-    @Size(min = 0)
+    @Min(value = 0)
     private Double balance;
 
     @NotNull
