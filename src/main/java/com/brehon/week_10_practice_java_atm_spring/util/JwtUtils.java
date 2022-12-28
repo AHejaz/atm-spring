@@ -21,7 +21,7 @@ public class JwtUtils {
     @Value(value = "${jwt.expireOnMs.key}")
     private String expireKey;
 
-    private Claims getAllClaimsFromToken(String token){
+    public Claims getAllClaimsFromToken(String token){
        return Jwts.parser().setSigningKey(secretKey).parseClaimsJwt(token).getBody();
     }
 

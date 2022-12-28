@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface AccountRepository extends BaseRepository<Account,Long> {
+public interface AccountRepository extends JpaRepository<Account,Long> {
     Optional<Account>findByCard_CardNumberAndCard_Password(String cardNumber,String password);
     Optional<Account>findByCard_CardNumber(String cardNumber);
 

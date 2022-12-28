@@ -2,15 +2,13 @@ package com.brehon.week_10_practice_java_atm_spring.service.impl;
 
 import com.brehon.week_10_practice_java_atm_spring.exceptions.NotFoundException;
 import com.brehon.week_10_practice_java_atm_spring.mapper.BaseMapper;
-import com.brehon.week_10_practice_java_atm_spring.repository.BaseRepository;
 import com.brehon.week_10_practice_java_atm_spring.service.BaseService;
 import jakarta.validation.Valid;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 
-public abstract class BaseCrud <E,D,M extends BaseMapper,R extends BaseRepository,N extends Number>  implements BaseService<D,N> {
+public abstract class BaseCrud <E,D,M extends BaseMapper,R extends org.springframework.data.jpa.repository.JpaRepository,N extends Number>  implements BaseService<D,N> {
 
     protected final M mapper;
 

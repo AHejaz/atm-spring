@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface CardRepository extends BaseRepository<Card,Long> {
+public interface CardRepository extends JpaRepository<Card,Long> {
 
     Optional<Card> findByCardNumber(String cardNumber);
 }
