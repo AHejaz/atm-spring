@@ -11,6 +11,8 @@ import com.brehon.week_10_practice_java_atm_spring.util.JwtUtils;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,11 +28,6 @@ public class AccountServiceImpl extends BaseCrud<Account,AccountDto, AccountMapp
         this.jwtUtils = jwtUtils;
     }
 
-
-    @Override
-    public AccountDto saveOrUpdate(AccountDto dto) {
-        return null;
-    }
 
     @Override
     public LoginResponseDto login(LoginDto dto) {
@@ -52,6 +49,7 @@ public class AccountServiceImpl extends BaseCrud<Account,AccountDto, AccountMapp
 
 
     @Override
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public void moneyTransfer( TransferMoneyDto dto){
         List<Account>accounts = new ArrayList<>();
         repository.findByCard_CardNumber(dto.getCardOrigin()).ifPresentOrElse(account -> {

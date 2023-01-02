@@ -19,7 +19,7 @@ public class JwtUtils {
     private String secretKey;
 
     @Value(value = "${jwt.expireOnMs.key}")
-    private String expireKey;
+    private Long expireKey;
 
     public Claims getAllClaimsFromToken(String token){
        return Jwts.parser().setSigningKey(secretKey).parseClaimsJwt(token).getBody();
@@ -29,11 +29,11 @@ public class JwtUtils {
        return getAllClaimsFromToken(token).getExpiration();
     }
 
-    private Boolean isTokenExpired(String token){
-        return getExpiredDate(token).before(new Date());
+    private boolean isTokenExpired(String token){
+        return getExpiredDate(token).before(new Date(System.currentTimeMillis()));
     }
 
-    public   Boolean validateToken(String token){
+    public   boolean validateToken(String token){
         try {
             String jwtToken = Optional.ofNullable(token)
                     .map(String::trim)
@@ -49,7 +49,7 @@ public class JwtUtils {
     public String generateToken(Account account){
         Map<String,Object> claims = new HashMap<>();
         claims.put("ac_num",account.getAccountNumber());
-        claims.put("uid",account.getUser().getId());
+        claims.put("uId",account.getUser().getId());
         return generateToken(claims,account.getUser().getNationalCode());
     }
 
@@ -57,7 +57,7 @@ public class JwtUtils {
         return Jwts.builder().setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + expireKey))
+                .setExpiration(new Date(System.currentTimeMillis()+expireKey))
                 .signWith(SignatureAlgorithm.HS512,secretKey).compact();
     }
 }

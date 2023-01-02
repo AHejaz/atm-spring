@@ -20,7 +20,7 @@ import java.util.Random;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Account {
+public class Account extends AuditingField{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

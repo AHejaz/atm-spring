@@ -14,7 +14,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Transaction {
+public class Transaction extends AuditingField{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

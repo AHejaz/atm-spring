@@ -6,13 +6,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Table(name = "user")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class User extends AuditingField{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,6 +33,12 @@ public class User {
 
     @Column(name = "birthday",nullable = false,length = 11)
     private LocalDate birthday;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(  name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
 
     public User( String name, String family, String nationalCode, LocalDate birthday) {
         this.id = null;

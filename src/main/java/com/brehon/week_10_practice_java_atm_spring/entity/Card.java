@@ -13,7 +13,7 @@ import java.util.Random;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Card {
+public class Card extends AuditingField{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

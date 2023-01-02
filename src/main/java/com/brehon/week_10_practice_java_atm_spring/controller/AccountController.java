@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("account")
+@RequestMapping("/account")
 public class AccountController {
     private final AccountService accountService;
 
@@ -49,7 +49,7 @@ public class AccountController {
         return ResponseEntity.ok(accountService.login(dto));
     }
 
-    @PostMapping(value = "")
+    @PostMapping(value = "/register")
     public ResponseEntity<AccountDto> save(@RequestBody @Valid AccountDto accountDto) {
         AccountDto account = accountService.saveOrUpdate(accountDto);
         return ResponseEntity.ok(account);
